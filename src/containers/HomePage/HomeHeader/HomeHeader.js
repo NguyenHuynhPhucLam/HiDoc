@@ -5,6 +5,7 @@ import Logo from '../../../assets/logo.png';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../../utils/constant';
 import { changeLanguageApp } from '../../../store/actions/appActions';
+import { start } from '@popperjs/core';
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changeLanguageAppRedux(language);

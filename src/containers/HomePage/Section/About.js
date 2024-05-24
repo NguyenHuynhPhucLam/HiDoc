@@ -13,10 +13,10 @@ class About extends Component {
               height='400px'
               src='https://www.youtube.com/embed/6stlCkUDG_s?list=PL4Gr5tOAPttLOY9IrWVjJlv4CtkYI5cI_'
               title='Sea waves &amp; beach drone video | Free HD Video - no copyright'
-              frameborder='0'
+              frameBorder='0'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-              referrerpolicy='strict-origin-when-cross-origin'
-              allowfullscreen
+              referrerPolicy='strict-origin-when-cross-origin'
+              allowFullScreen
             ></iframe>
           </div>
           <div className='content-right'>
