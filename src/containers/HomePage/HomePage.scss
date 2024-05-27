@@ -12,12 +12,14 @@
     background-color: #eceaea !important;
   }
 }
+
 .slick-prev:before,
 .slick-next:before {
   font-family: 'FontAwesome' !important;
   color: red !important;
   //   content: '\e257' !important;
 }
+
 .slick-next {
   right: -10 !important;
   z-index: 1000;
