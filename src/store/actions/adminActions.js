@@ -199,7 +199,7 @@ export const editUserFailed = () => ({
 export const fetchTopDoctors = () => {
   return async (dispatch, getState) => {
     try {
-      let res = await getTopDoctorHomeService('5');
+      let res = await getTopDoctorHomeService('7');
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
