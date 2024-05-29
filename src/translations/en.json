@@ -72,8 +72,8 @@
       "book-free": " and book (free)"
     },
     "extra-infor-doctor": {
-      "text-address": "Medical examination address",
-      "price": "Medical examination price:",
+      "text-address": "Medical facility address",
+      "price": "Medical examination fee:",
       "detail": "See details",
       "payment": "Patients can pay costs in the following ways:",
       "hide-price": "Hide price list."
