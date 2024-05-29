@@ -79,10 +79,12 @@ class ManageDoctor extends Component {
       });
     }
     if (prevProps.allRequiredDoctorInfo !== this.props.allRequiredDoctorInfo) {
-      let { resPayment, resPrice, resProvince } = this.props;
-      let dataSelectPrice = this.buildDataInputSelect(resPrice);
-      let dataSelectPayment = this.buildDataInputSelect(resPayment);
-      let dataSelectProvince = this.buildDataInputSelect(resProvince);
+      let { resPayment, resPrice, resProvince } =
+        this.props.allRequiredDoctorInfo;
+      let dataSelectPrice = this.buildDataInputSelect(resPrice.data);
+      let dataSelectPayment = this.buildDataInputSelect(resPayment.data);
+      let dataSelectProvince = this.buildDataInputSelect(resProvince.data);
+      console.log('check props: ', this.props.allRequiredDoctorInfo);
       this.setState({
         listPrice: dataSelectPrice,
         listPayment: dataSelectPayment,
@@ -136,6 +138,7 @@ class ManageDoctor extends Component {
 
   render() {
     let { hasOldData } = this.state;
+    // console.log()
 
     return (
       <div className='manage-doctor-container'>
