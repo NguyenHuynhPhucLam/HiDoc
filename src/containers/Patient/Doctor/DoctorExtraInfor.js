@@ -42,7 +42,7 @@ class DoctorExtraInfor extends Component {
                 </div>
                 <div className='content-down'>
                     {isShowDetailInfor === false &&
-                        <div>
+                        <div className='short-infor'>
                             GIÁ KHÁM: 300.000đ.
                             <span onClick={() => this.showHideDetailInfor(true)}>
                                 Xem chi tiết
@@ -52,16 +52,20 @@ class DoctorExtraInfor extends Component {
 
                     {isShowDetailInfor === true &&
                         <>
-                            <div>GIÁ KHÁM: </div>
-                            <div>
-                                Giá khám
-                                Giá khám chưa bao gồm chi phí chụp chiếu xét nghiệm
-                                300.000đ
+                            <div className='title-price'>GIÁ KHÁM: </div>
+                            <div className='detail-infor'>
+                                <div className='price'>
+                                    <span className='left'>Giá khám</span>
+                                    <span className='right'>300.000đ</span>
+                                </div>
+                                <div className='note'>
+                                    Giá khám chưa bao gồm chi phí chụp chiếu xét nghiệm
+                                </div>
                             </div>
-                            <div>
+                            <div className='payment'>
                                 Người bệnh có thể trả bằng tiền mặt hoặc thẻ ngân hàng
                             </div>
-                            <span onClick={() => this.showHideDetailInfor(false)}>
+                            <span className='hide-price' onClick={() => this.showHideDetailInfor(false)}>
                                 Ẩn bảng giá
                             </span>
                         </>
@@ -69,7 +73,7 @@ class DoctorExtraInfor extends Component {
 
                 </div>
 
-            </div>
+            </div >
         );
     }
 }
