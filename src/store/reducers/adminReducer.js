@@ -98,7 +98,7 @@ const adminReducer = (state = initialState, action) => {
       };
     case actionTypes.FETCH_REQUIRED_DOCTOR_INFO_SUCCESS:
       state.allRequiredDoctorInfo = action.data;
-      console.log('check admin reducer: ', action, state.allRequiredDoctorInfo);
+      // console.log('check admin reducer: ', action, state.allRequiredDoctorInfo);
       return {
         ...state,
       };

@@ -312,9 +312,9 @@ export const getRequiredDoctorInfo = () => {
         resProvince.errCode === 0
       ) {
         let data = {
-          resPrice: resPrice,
-          resPayment: resPayment,
-          resProvince: resProvince,
+          resPrice: resPrice.data,
+          resPayment: resPayment.data,
+          resProvince: resProvince.data,
         };
         dispatch(fetchRequiredDoctorInfoSuccess(data));
       } else {
