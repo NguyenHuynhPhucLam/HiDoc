@@ -3,56 +3,51 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './BookingModal.scss';
 import { Modal } from 'reactstrap';
-
+import ProfileDoctor from '../ProfileDoctor';
 class BookingModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    async componentDidMount() { }
+  async componentDidMount() {}
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps, prevState, snapshot) {}
 
-    }
-
-    render() {
-        return (
-            <Modal
-                isOpen={true}
-                className={'booking-modal-container'}
-                centered
-                size='lg'
-            >
-                <div className='booking-modal-content'>
-                    <div className='booking-modal-header'>
-                        <span className='left'>Thông tin đặt lịch khám bệnh</span>
-                        <span className='right'><i className='fas fa-times'></i></span>
-
-                    </div>
-                    <div className='booking-modal-body'>
-
-                    </div>
-                    <div className='booking-modal-footer'>
-                        <button className='btn-booking-confirm'>Xác nhận</button>
-                        <button className='btn-booking-cancel'>Cancel</button>
-                    </div>
-                </div>
-
-            </Modal>
-        );
-    }
+  render() {
+    return (
+      <Modal
+        isOpen={true}
+        className={'booking-modal-container'}
+        centered
+        size='lg'
+      >
+        <div className='booking-modal-content'>
+          <div className='booking-modal-header'>
+            <span className='left'>Thông tin đặt lịch khám bệnh</span>
+            <span className='right'>
+              <i className='fas fa-times'></i>
+            </span>
+          </div>
+          <div className='booking-modal-body'></div>
+          <div className='booking-modal-footer'>
+            <button className='btn-booking-confirm'>Xác nhận</button>
+            <button className='btn-booking-cancel'>Cancel</button>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        language: state.app.language,
-    };
+  return {
+    language: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);

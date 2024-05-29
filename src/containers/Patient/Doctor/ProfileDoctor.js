@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import './ProfileDoctor.scss';
+import { getProfileDoctorByIdService } from '../../../services/userService';
 
-class DefaultClass extends Component {
+class ProfileDoctor extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dataProfile: {},
+    };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    let id = this.props.doctorId;
+    if (id) {
+      let res = getProfileDoctorByIdService(id);
+    }
+  }
 
   async componentDidUpdate(prevProps, prevState, snapshot) {}
 
@@ -27,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultClass);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);
