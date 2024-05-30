@@ -82,6 +82,12 @@
       "title": "Thông tin đặt lịch khám bệnh",
       "fullName": "Họ và Tên",
       "phoneNumber": "Số diện thoại",
+      "email": "Địa chỉ Email",
+      "address": "Địa chỉ thường trú",
+      "reason": "Lý do khám",
+      "birthday": "Ngày sinh",
+      "gender": "Giới tính",
+      "btnConfirm": "Xác nhận"
     }
   },
   "admin": {
