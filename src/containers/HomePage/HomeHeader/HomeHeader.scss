@@ -5,7 +5,7 @@
   position: sticky;
   top: 0;
   background-color: white;
-  z-index: 10000;
+  z-index: 100;
 
   .home-header-content {
     width: 100%;
@@ -25,12 +25,14 @@
         transform: scale(0.75, 0.75);
         margin-left: -45px;
       }
+
       i {
         font-size: 25px;
         color: gray;
         cursor: pointer;
       }
     }
+
     .center-content {
       width: 55%;
       display: flex;
@@ -44,6 +46,7 @@
         }
       }
     }
+
     .right-content {
       width: 25%;
       display: flex;
@@ -68,6 +71,7 @@
 
         &.active {
           opacity: 1;
+
           span {
             color: orange;
           }
@@ -85,6 +89,7 @@
 
         &.active {
           opacity: 1;
+
           span {
             color: blue;
           }
@@ -108,12 +113,11 @@
   flex-direction: column;
 
   .content-up {
-    background-image: linear-gradient(
-      rgba(0, 0, 0, 0.25),
-      rgba(255, 255, 255, 0.1)
-    );
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25),
+        rgba(255, 255, 255, 0.1));
     padding-top: 15px;
     height: 65%;
+
     .title1 {
       text-align: center;
       font-size: 30px;
@@ -122,6 +126,7 @@
       margin-bottom: 5px;
       margin-top: 30px;
     }
+
     .title2 {
       text-align: center;
       font-size: 30px;
@@ -129,6 +134,7 @@
       color: white;
       margin-bottom: 30px;
     }
+
     .search {
       width: fit-content;
       display: flex;
@@ -142,6 +148,7 @@
       i {
         margin: 0 5px;
       }
+
       input {
         height: 30px;
         width: 360px;
@@ -151,17 +158,16 @@
       }
     }
   }
+
   .content-down {
     height: 35%;
     padding-bottom: 10px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    background-image: linear-gradient(
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 1)
-    );
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 1));
 
     .options {
       display: flex;
@@ -186,6 +192,7 @@
             font-size: 20px;
           }
         }
+
         .text-child {
           font-size: 17px;
           font-weight: 500;

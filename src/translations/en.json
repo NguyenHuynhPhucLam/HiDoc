@@ -77,6 +77,17 @@
       "detail": "See details",
       "payment": "Patients can pay costs in the following ways:",
       "hide-price": "Hide price list."
+    },
+    "booking-modal": {
+      "title": "Information on scheduling medical examinations",
+      "fullName": "First and last name",
+      "phoneNumber": "Phone number",
+      "email": "Email address",
+      "address": "Permanent address",
+      "reason": "Reason for medical examination",
+      "birthday": "Date of birth",
+      "gender": "Sex",
+      "btnConfirm": "Confirm"
     }
   },
   "admin": {
