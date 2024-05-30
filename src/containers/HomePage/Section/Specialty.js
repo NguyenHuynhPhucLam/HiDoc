@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './Specialty.scss';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
+import { withRouter } from 'react-router';
 
 import specialtyImg from '../../../assets/specialty/co-xuong-khop.jpg';
 class Specialty extends Component {
@@ -59,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));

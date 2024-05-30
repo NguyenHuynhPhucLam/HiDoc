@@ -26,7 +26,9 @@ class OutstandingDoctor extends Component {
   }
 
   handViewDetailDoctor = (doctor) => {
-    this.props.history.push(`/detail-doctor/${doctor.id}`);
+    if (this.props.history) {
+      this.props.history.push(`/detail-doctor/${doctor.id}`);
+    }
   };
 
   render() {
@@ -60,7 +62,7 @@ class OutstandingDoctor extends Component {
                     <div
                       className='section-customize'
                       key={index}
-                      onClick={() => this.handViewDetailDoctor(item)}
+
                     >
                       <div className='customize-border'>
                         <div className='outer-bg'>
