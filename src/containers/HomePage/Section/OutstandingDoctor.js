@@ -62,6 +62,7 @@ class OutstandingDoctor extends Component {
                     <div
                       className='section-customize'
                       key={index}
+                      onClick={() => this.handViewDetailDoctor(item)}
 
                     >
                       <div className='customize-border'>
