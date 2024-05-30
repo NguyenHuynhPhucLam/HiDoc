@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import './Specialty.scss';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
+<<<<<<< HEAD
+=======
 import { withRouter } from 'react-router';
+>>>>>>> 2c53c02b999cfe64e351d29262fe933666175e65
 import { getAllSpecialtiesService } from '../../../services/userService';
 
 class Specialty extends Component {
@@ -73,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));
+export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
