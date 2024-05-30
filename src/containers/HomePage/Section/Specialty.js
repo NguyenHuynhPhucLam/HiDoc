@@ -4,7 +4,6 @@ import './Specialty.scss';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import { getAllSpecialtiesService } from '../../../services/userService';
-import { withRouter } from 'react-router';
 
 class Specialty extends Component {
   constructor(props) {
@@ -73,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));
+export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
