@@ -80,14 +80,17 @@
     },
     "booking-modal": {
       "title": "Information on scheduling medical examinations",
-      "fullName": "First and last name",
+      "fullName": "Full name",
       "phoneNumber": "Phone number",
       "email": "Email address",
       "address": "Permanent address",
       "reason": "Reason for medical examination",
       "birthday": "Date of birth",
-      "gender": "Sex",
-      "btnConfirm": "Confirm"
+      "gender": "Gender",
+      "btnConfirm": "Confirm",
+      "btnCancel": "Cancel",
+      "priceBooking": "Free booking",
+      "price": "Medical examination fee: "
     }
   },
   "admin": {
