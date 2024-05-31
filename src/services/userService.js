@@ -86,7 +86,9 @@ const getAllMedicines = () => {
   return axios.get(`/api/get-all-medicines`);
 };
 const getAllMedicinesOfPatientById = (patientId) => {
-  return axios.get(`/api/get-all-medicines-of-patient-by-id=${patientId}`);
+  return axios.get(
+    `/api/get-all-medicines-of-patient-by-id?patientId=${patientId}`
+  );
 };
 
 export {

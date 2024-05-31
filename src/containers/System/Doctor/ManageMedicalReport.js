@@ -27,8 +27,10 @@ class ManageMedicalReport extends Component {
       usage: '',
       amount: '',
 
+      medicineData: [],
       selectedMedicine: '',
-      medicinesData: [],
+      myMedicinesData: [],
+      buildMedicineData: [],
       appointmentDate: '',
     };
   }
@@ -49,21 +51,27 @@ class ManageMedicalReport extends Component {
         let resMyMedicine = await getAllMedicinesOfPatientById(patientId);
         if (res && res.errCode === 0) {
           patientName = res.data.firstName;
+          this.setState({
+            myMedicinesData: resMyMedicine.data,
+          });
         }
-        console.log('resMyMedicine >>> ', res);
+        console.log('resMyMedicine >>> ', resMyMedicine);
       }
       let resMedicine = await getAllMedicines();
       if (resMedicine && resMedicine.errCode === 0) {
         let listMedicine = this.buildDataInputSelect(resMedicine.data, 'ME');
         let listUnit = this.buildDataInputSelect(resMedicine.data, 'UN');
         let listUsage = this.buildDataInputSelect(resMedicine.data, 'US');
-
+        let joinedData = this.buildMyMedicineData(
+          this.state.myMedicinesData,
+          resMedicine.data
+        );
         this.setState({
           listMedicine: listMedicine,
           medicineData: resMedicine.data,
           listUnit: listUnit,
           listUsage: listUsage,
-          medicinesData: resMedicine.data,
+          buildMedicineData: joinedData,
         });
       }
       this.setState({
@@ -112,6 +120,24 @@ class ManageMedicalReport extends Component {
     return result;
   };
 
+  buildMyMedicineData = (myMedicinesData, medicineData) => {
+    const joinedData = [];
+    if (myMedicinesData && myMedicinesData.length > 0) {
+      for (let i = 0; i < myMedicinesData.length; i++) {
+        const medicineId = myMedicinesData[i].medicineId;
+        const matchingData2 = medicineData.find(
+          (item) => item.id === medicineId
+        );
+
+        if (matchingData2) {
+          const mergedData = { ...myMedicinesData[i], ...matchingData2 };
+          joinedData.push(mergedData);
+        }
+      }
+    }
+    console.log(joinedData);
+    return joinedData;
+  };
   handleChangeSelect = async (selectedOption) => {
     console.log(selectedOption.value);
     let { listUnit, listUsage } = this.state;
@@ -165,6 +191,7 @@ class ManageMedicalReport extends Component {
 
   render() {
     console.log('check state: ', this.state);
+    let { buildMedicineData } = this.state;
     return (
       <div className='manage-doctor-container'>
         <div className='manage-doctor-title'>
@@ -265,32 +292,18 @@ class ManageMedicalReport extends Component {
                     <th>Thao tác</th>
                   </tr>
 
-                  {/* {dataPatient && dataPatient.length > 0 ? (
-                    dataPatient.map((item, index) => {
-                      let birthday = moment
-                        .unix(+item.patientData.birthday / 1000)
-                        .format('DD/MM/YYYY');
+                  {buildMedicineData && buildMedicineData.length > 0 ? (
+                    buildMedicineData.map((item, index) => {
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{item.timeTypeDataPatient.valueVi}</td>
-                          <td>{item.patientData.firstName}</td>
-                          <td>{item.patientData.genderData.valueVi}</td>
-                          <td>{birthday}</td>
-                          <td>{item.patientData.phoneNumber}</td>
-                          <td>{item.patientData.address}</td>
+                          <td>{item.name}</td>
+                          <td>{item.unit}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.usage}</td>
                           <td className>
-                            <button
-                              className='mp-btn-confirm'
-                              onClick={() => this.handleMakeMedicalReport(item)}
-                            >
-                              Kê đơn thuốc
-                            </button>
-                            <button className='mp-btn-remedy'>
-                              Gửi hóa đơn
-                            </button>
                             <button className='mp-btn-cancel'>
-                              Hủy lịch hẹn
+                              Hủy đơn thuốc
                             </button>
                           </td>
                         </tr>
@@ -298,7 +311,7 @@ class ManageMedicalReport extends Component {
                     })
                   ) : (
                     <tr>No Data</tr>
-                  )} */}
+                  )}
                 </tbody>
               </table>
             </div>
