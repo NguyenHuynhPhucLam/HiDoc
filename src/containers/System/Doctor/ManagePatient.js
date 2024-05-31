@@ -5,7 +5,7 @@ import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientsForDoctorService } from '../../../services/userService';
 import moment from 'moment';
-
+import { withRouter } from 'react-router';
 class ManagePatient extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +50,13 @@ class ManagePatient extends Component {
     );
   };
 
+  handleMakeMedicalReport = (tableData) => {
+    if (this.props.history) {
+      this.props.history.push(
+        `/doctor/medical-report/${tableData.patientId}/${tableData.date}`
+      );
+    }
+  };
   render() {
     let { dataPatient } = this.state;
     console.log('check props from Manage Patient: ', this.props);
@@ -97,8 +104,16 @@ class ManagePatient extends Component {
                         <td>{item.patientData.phoneNumber}</td>
                         <td>{item.patientData.address}</td>
                         <td className>
-                          <button className='mp-btn-confirm'>Xác nhận</button>
+                          <button
+                            className='mp-btn-confirm'
+                            onClick={() => this.handleMakeMedicalReport(item)}
+                          >
+                            Kê đơn thuốc
+                          </button>
                           <button className='mp-btn-remedy'>Gửi hóa đơn</button>
+                          <button className='mp-btn-cancel'>
+                            Hủy lịch hẹn
+                          </button>
                         </td>
                       </tr>
                     );
@@ -126,4 +141,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ManagePatient)
+);

@@ -76,6 +76,19 @@ const getAllPatientsForDoctorService = (data) => {
     `/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`
   );
 };
+const createNewMedicineService = (data) => {
+  return axios.post('/api/save-info-medicine', data);
+};
+const getPatientById = (patientId) => {
+  return axios.get(`/api/get-patient-by-id?patientId=${patientId}`);
+};
+const getAllMedicines = () => {
+  return axios.get(`/api/get-all-medicines`);
+};
+const getAllMedicinesOfPatientById = (patientId) => {
+  return axios.get(`/api/get-all-medicines-of-patient-by-id=${patientId}`);
+};
+
 export {
   handleLoginApi,
   getAllUsers,
@@ -97,4 +110,8 @@ export {
   getAllSpecialtiesService,
   getDetailSpecialtyByIdService,
   getAllPatientsForDoctorService,
+  createNewMedicineService,
+  getPatientById,
+  getAllMedicines,
+  getAllMedicinesOfPatientById,
 };
