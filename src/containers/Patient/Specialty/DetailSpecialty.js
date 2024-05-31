@@ -4,62 +4,67 @@ import { FormattedMessage } from 'react-intl';
 import HomeHeader from '../../HomePage/HomeHeader/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
+import ProfileDoctor from '../Doctor/ProfileDoctor';
+import './DetailSpecialty.scss';
 class DetailSpecialty extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            arrDoctorId: [44, 40],
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrDoctorId: [40, 41],
+    };
+  }
 
-    async componentDidMount() { }
+  async componentDidMount() {}
 
-    async componentDidUpdate(prevProps, prevState, snapshot) { }
+  async componentDidUpdate(prevProps, prevState, snapshot) {}
 
-    render() {
-        let { arrDoctorId } = this.state;
-        return (
-            <div className='detail-specialty-container'>
-                <HomeHeader />
-                <div className='description-specialty'></div>
+  render() {
+    let { arrDoctorId } = this.state;
+    return (
+      <div className='detail-specialty-container'>
+        <HomeHeader />
+        <div className='detail-specialty-body'>
+          <div className='description-specialty'></div>
 
-                {arrDoctorId && arrDoctorId.length > 0 &&
-                    arrDoctorId.map((item, index) => {
-                        <div className='each-doctor' key={index}>
-                            <div className='content-left'>
+          {arrDoctorId &&
+            arrDoctorId.length > 0 &&
+            arrDoctorId.map((item, index) => {
+              return (
+                <div className='each-doctor' key={index}>
+                  <div className='dt-content-left'>
+                    <div className='profile-doctor'>
+                      <ProfileDoctor
+                        doctorId={item}
+                        isShowDescriptionDoctor={true}
+                      />
+                    </div>
+                  </div>
 
-                            </div>
-                            <div className='content-right'>
-                                <div className='doctor-schedule'>
-                                    <DoctorSchedule
-                                        doctorIdFromParent={item}
-                                    />
-                                </div>
-                                <div className='doctor-extra-info'>
-                                    <DoctorExtraInfor
-                                        doctorIdFromParent={item}
-                                    />
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                    })
-                }
-            </div>
-        );
-    }
+                  <div className='dt-content-right'>
+                    <div className='doctor-schedule'>
+                      <DoctorSchedule doctorIdFromParent={item} />
+                    </div>
+                    <div className='doctor-extra-info'>
+                      <DoctorExtraInfor doctorIdFromParent={item} />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        language: state.app.language,
-    };
+  return {
+    language: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
