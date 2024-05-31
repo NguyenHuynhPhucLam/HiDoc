@@ -344,16 +344,6 @@ class ManageDoctor extends Component {
 
           <div className='col-4 form-group'>
             <label>
-              <FormattedMessage id='admin.manage-doctor.name-clinic' />
-            </label>
-            <input
-              className='form-control'
-              onChange={(event) => this.handleOnChangeText(event, 'nameClinic')}
-              value={this.state.nameClinic}
-            />
-          </div>
-          <div className='col-4 form-group'>
-            <label>
               <FormattedMessage id='admin.manage-doctor.address-clinic' />
             </label>
             <input
