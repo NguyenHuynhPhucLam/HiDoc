@@ -24,11 +24,11 @@ class Specialty extends Component {
   }
 
   handViewDetailSpecialty = (item) => {
+    console.log('check item: ', this.props);
     if (this.props.history) {
       this.props.history.push(`/detail-specialty/${item.id}`);
     }
-
-  }
+  };
   render() {
     let { dataSpecialties } = this.state;
     return (
@@ -80,4 +80,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Specialty)
+);
