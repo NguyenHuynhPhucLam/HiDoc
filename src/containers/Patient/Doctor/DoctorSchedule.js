@@ -23,6 +23,16 @@ class DoctorSchedule extends Component {
   async componentDidMount() {
     let { language } = this.props;
     let allDays = this.getArrDays(language);
+
+    if (this.props.doctorIdFromParent) {
+      let res = await getScheduleDoctorByDateService(
+        this.props.doctorIdFromParent,
+        allDays[0].value
+      );
+      this.setState({
+        allAvailableTime: res.data ? res.data : [],
+      });
+    }
     this.setState({
       allDays: allDays,
     });
@@ -103,16 +113,20 @@ class DoctorSchedule extends Component {
     this.setState({
       isOpenModalBooking: true,
       dataScheduleTimeModal: time,
-    })
-
-  }
+    });
+  };
 
   closeBookingModal = () => {
-    this.setState({ isOpenModalBooking: false })
-  }
+    this.setState({ isOpenModalBooking: false });
+  };
 
   render() {
-    let { allDays, allAvailableTime, isOpenModalBooking, dataScheduleTimeModal } = this.state;
+    let {
+      allDays,
+      allAvailableTime,
+      isOpenModalBooking,
+      dataScheduleTimeModal,
+    } = this.state;
     let { language } = this.props;
     return (
       <>
@@ -180,9 +194,9 @@ class DoctorSchedule extends Component {
         <BookingModal
           isOpenModal={isOpenModalBooking}
           closeBookingModal={this.closeBookingModal}
-          dataTime={dataScheduleTimeModal} />
+          dataTime={dataScheduleTimeModal}
+        />
       </>
-
     );
   }
 }
