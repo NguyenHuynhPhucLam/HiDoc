@@ -3,26 +3,57 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
+import { getAllPatientsForDoctorService } from '../../../services/userService';
+import moment from 'moment';
 
 class ManagePatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: new Date(),
+      currentDate: moment(new Date()).startOf('day').valueOf(),
+      dataPatient: [],
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    let { user } = this.props;
+    let { currentDate } = this.state;
+    let formattedDate = new Date(currentDate).getTime();
+    this.getDataPatient(user, formattedDate);
+  }
+
+  getDataPatient = async (user, formattedDate) => {
+    let res = await getAllPatientsForDoctorService({
+      doctorId: user.id,
+      date: formattedDate,
+    });
+    if (res && res.errCode === 0) {
+      this.setState({
+        dataPatient: res.data,
+      });
+    }
+  };
 
   async componentDidUpdate(prevProps, prevState, snapshot) {}
 
   handleOnChangeDatePicker = (date) => {
-    this.setState({
-      currentDate: date[0],
-    });
+    this.setState(
+      {
+        currentDate: date[0],
+      },
+      () => {
+        let { user } = this.props;
+        let { currentDate } = this.state;
+        let formattedDate = new Date(currentDate).getTime();
+        this.getDataPatient(user, formattedDate);
+      }
+    );
   };
 
   render() {
+    let { dataPatient } = this.state;
+    console.log('check props from Manage Patient: ', this.props);
+    console.log('check dataPatient from Manage Patient: ', dataPatient);
     return (
       <div className='manage-patient-container'>
         <div className='m-p-title'>
@@ -39,21 +70,43 @@ class ManagePatient extends Component {
           </div>
           <div className='col-12 table-manage-patient'>
             <table style={{ width: '100%' }}>
-              <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
-              </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-              </tr>
-              <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>STT</th>
+                  <th>Thời gian</th>
+                  <th>Họ và Tên</th>
+                  <th>Giới tính</th>
+                  <th>Ngày sinh</th>
+                  <th>SĐT</th>
+                  <th>Địa chỉ</th>
+                  <th>Thao tác</th>
+                </tr>
+
+                {dataPatient && dataPatient.length > 0 ? (
+                  dataPatient.map((item, index) => {
+                    let birthday = moment
+                      .unix(+item.patientData.birthday / 1000)
+                      .format('DD/MM/YYYY');
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.timeTypeDataPatient.valueVi}</td>
+                        <td>{item.patientData.firstName}</td>
+                        <td>{item.patientData.genderData.valueVi}</td>
+                        <td>{birthday}</td>
+                        <td>{item.patientData.phoneNumber}</td>
+                        <td>{item.patientData.address}</td>
+                        <td className>
+                          <button className='mp-btn-confirm'>Xác nhận</button>
+                          <button className='mp-btn-remedy'>Gửi hóa đơn</button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>No Data</tr>
+                )}
+              </tbody>
             </table>
           </div>
         </div>
@@ -65,6 +118,7 @@ class ManagePatient extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    user: state.user.userInfo,
   };
 };
 

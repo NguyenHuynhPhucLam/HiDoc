@@ -12,6 +12,18 @@
 
     .table-manage-patient {
       margin-top: 10px;
+      //   table,
+      //   th,
+      //   td {
+      //     border: 1px solid black;
+      //     border-collapse: collapse;
+      //   }
+      //   th,
+      //   td {
+      //     padding: 5px;
+      //     text-align: left;
+      //   }
+
       table,
       th,
       td {
@@ -22,6 +34,26 @@
       td {
         padding: 5px;
         text-align: left;
+      }
+
+      button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .mp-btn-confirm {
+        margin-right: 10px;
+        height: 30px;
+        border-radius: 5px;
+        background: lawngreen;
+      }
+
+      .mp-btn-remedy {
+        margin-right: 10px;
+        height: 30px;
+        border-radius: 5px;
+        background: orange;
       }
     }
   }
