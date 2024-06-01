@@ -90,7 +90,15 @@ const getAllMedicinesOfPatientById = (patientId) => {
     `/api/get-all-medicines-of-patient-by-id?patientId=${patientId}`
   );
 };
-
+const createNewMedicalReportService = (data) => {
+  return axios.post('/api/create-medical-report', data);
+};
+const postSavePatientInfo = (data) => {
+  return axios.post('/api/save-patient-info', data);
+};
+const getPatientInfoByPId = (patientId) => {
+  return axios.get(`/api/get-patient-info-by-pid?patientId=${patientId}`);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -116,4 +124,7 @@ export {
   getPatientById,
   getAllMedicines,
   getAllMedicinesOfPatientById,
+  createNewMedicalReportService,
+  postSavePatientInfo,
+  getPatientInfoByPId,
 };

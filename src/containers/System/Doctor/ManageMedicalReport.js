@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
-import { createNewMedicineService } from '../../../services/userService';
 import moment from 'moment';
 import {
   getPatientById,
   getAllMedicines,
   getAllMedicinesOfPatientById,
+  createNewMedicalReportService,
+  postSavePatientInfo,
+  getPatientInfoByPId,
 } from '../../../services/userService';
 import Select from 'react-select';
 
@@ -36,7 +38,6 @@ class ManageMedicalReport extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props);
     if (
       this.props.match &&
       this.props.match.params &&
@@ -49,13 +50,16 @@ class ManageMedicalReport extends Component {
       if (patientId) {
         let res = await getPatientById(patientId);
         let resMyMedicine = await getAllMedicinesOfPatientById(patientId);
+        let resPatientInfo = await getPatientInfoByPId(patientId);
+        console.log('resPatientInfo >>> ', resPatientInfo);
         if (res && res.errCode === 0) {
           patientName = res.data.firstName;
           this.setState({
             myMedicinesData: resMyMedicine.data,
+            symptom: resPatientInfo.data.symptom,
+            diagnose: resPatientInfo.data.diagnose,
           });
         }
-        console.log('resMyMedicine >>> ', resMyMedicine);
       }
       let resMedicine = await getAllMedicines();
       if (resMedicine && resMedicine.errCode === 0) {
@@ -169,24 +173,40 @@ class ManageMedicalReport extends Component {
   };
 
   handleSaveMedicine = async () => {
-    let res = await createNewMedicineService({
-      name: this.state.name,
-      pricePerUnit: this.state.pricePerUnit,
-      unit: this.state.unit,
-      usage: this.state.usage,
+    let res = await createNewMedicalReportService({
+      patientId: this.state.patientId,
+      medicineId: this.state.selectedMedicine.value,
+      amount: this.state.amount,
     });
-    if (res && res.errCode === 0) {
+    let resPatientInfo = await postSavePatientInfo({
+      patientId: this.state.patientId,
+      symptom: this.state.symptom,
+      diagnose: this.state.diagnose,
+    });
+    if (
+      res &&
+      res.errCode === 0 &&
+      resPatientInfo &&
+      resPatientInfo.errCode === 0
+    ) {
       toast.success('Save medicine successfully!');
+      let resMyMedicine = await getAllMedicinesOfPatientById(
+        this.state.patientId
+      );
+      console.log('resMyMedicineData >>> ', resMyMedicine);
+      if (resMyMedicine && resMyMedicine.errCode === 0) {
+        let joinedData = this.buildMyMedicineData(
+          resMyMedicine.data,
+          this.state.medicineData
+        );
+        this.setState({
+          buildMedicineData: joinedData,
+        });
+      }
     } else {
       toast.error('Save medicine error!');
     }
     console.log('check state: ', this.state);
-    this.setState({
-      name: '',
-      pricePerUnit: '',
-      unit: '',
-      usage: '',
-    });
   };
 
   render() {
