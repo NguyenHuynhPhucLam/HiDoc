@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientsForDoctorService } from '../../../services/userService';
+import {
+  getAllPatientsForDoctorService,
+  deleteBookingByPatientId,
+} from '../../../services/userService';
 import moment from 'moment';
 import { withRouter } from 'react-router';
 class ManagePatient extends Component {
@@ -55,6 +58,15 @@ class ManagePatient extends Component {
       this.props.history.push(
         `/doctor/medical-report/${tableData.patientId}/${tableData.date}`
       );
+    }
+  };
+  handleOnCancelBooking = async (item) => {
+    let res = await deleteBookingByPatientId(item.patientId);
+    if (res && res.errCode === 0) {
+      let { user } = this.props;
+      let { currentDate } = this.state;
+      let formattedDate = new Date(currentDate).getTime();
+      this.getDataPatient(user, formattedDate);
     }
   };
   render() {
@@ -112,10 +124,10 @@ class ManagePatient extends Component {
                             >
                               Kê đơn thuốc
                             </button>
-                            <button className='mp-btn-remedy'>
-                              Gửi hóa đơn
-                            </button>
-                            <button className='mp-btn-cancel'>
+                            <button
+                              className='mp-btn-cancel'
+                              onClick={() => this.handleOnCancelBooking(item)}
+                            >
                               Hủy lịch hẹn
                             </button>
                           </td>

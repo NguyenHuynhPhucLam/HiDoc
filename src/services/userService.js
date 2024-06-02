@@ -110,6 +110,10 @@ const deleteMedicalReportByPatientId = (userId, medicineId) => {
     `/api/delete-medical-report-by-patient-id?patientId=${userId}&medicineId=${medicineId}`
   );
 };
+
+const deleteBookingByPatientId = (userId) => {
+  return axios.delete(`/api/delete-booking-by-patient-id?patientId=${userId}`);
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -141,4 +145,5 @@ export {
   postBillService,
   postVerifyBillService,
   deleteMedicalReportByPatientId,
+  deleteBookingByPatientId,
 };
