@@ -223,7 +223,9 @@ class UserRedux extends Component {
     let isGetGender = this.props.isLoadingGender;
     return (
       <div className='user-redux-container'>
-        <div className='title'>User Redux</div>
+        <div className='title'>
+          <FormattedMessage id='manage-user.add' />
+        </div>
         <div>{isGetGender === true ? 'Loading gender' : ''}</div>
         <div className='user-redux-body'>
           <div className='container'>
