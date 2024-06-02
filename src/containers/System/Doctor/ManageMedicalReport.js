@@ -10,6 +10,9 @@ import {
   createNewMedicalReportService,
   postSavePatientInfo,
   getPatientInfoByPId,
+  getDetailInfoDoctorService,
+  postBillService,
+  deleteMedicalReportByPatientId,
 } from '../../../services/userService';
 import Select from 'react-select';
 
@@ -19,6 +22,8 @@ class ManageMedicalReport extends Component {
     this.state = {
       patientName: '',
       patientId: '',
+      doctorPrice: '',
+      patientEmail: '',
 
       symptom: '',
       diagnose: '',
@@ -28,16 +33,29 @@ class ManageMedicalReport extends Component {
       unit: '',
       usage: '',
       amount: '',
+      totalPrice: 0,
 
       medicineData: [],
+      medicinePrice: [],
       selectedMedicine: '',
       myMedicinesData: [],
       buildMedicineData: [],
       appointmentDate: '',
+      plusPrice: 0,
+      unixDate: '',
     };
   }
 
   async componentDidMount() {
+    console.log(this.props);
+    if (this.props.userInfo) {
+      let res = await getDetailInfoDoctorService(this.props.userInfo.id);
+      if (res && res.errCode === 0) {
+        this.setState({
+          doctorPrice: res.data.Doctor_Info.priceTypeData.valueVi,
+        });
+      }
+    }
     if (
       this.props.match &&
       this.props.match.params &&
@@ -58,6 +76,7 @@ class ManageMedicalReport extends Component {
             myMedicinesData: resMyMedicine.data,
             symptom: resPatientInfo.data.symptom,
             diagnose: resPatientInfo.data.diagnose,
+            patientEmail: res.data.email,
           });
         }
       }
@@ -70,18 +89,42 @@ class ManageMedicalReport extends Component {
           this.state.myMedicinesData,
           resMedicine.data
         );
+        if (joinedData && joinedData.length > 0) {
+          let totalPrice = 0;
+          for (let i = 0; i < joinedData.length; i++) {
+            totalPrice =
+              totalPrice + joinedData[i].amount * joinedData[i].pricePerUnit;
+          }
+          let plusPrice = 0;
+          plusPrice = parseInt(this.state.doctorPrice) + parseInt(totalPrice);
+          this.setState({
+            totalPrice: totalPrice,
+            plusPrice: plusPrice,
+          });
+        }
+        if (joinedData.length == 0) {
+          let plusPrice = 0;
+          plusPrice = parseInt(this.state.doctorPrice);
+          this.setState({
+            totalPrice: 0,
+            plusPrice: plusPrice,
+          });
+        }
+
         this.setState({
           listMedicine: listMedicine,
           medicineData: resMedicine.data,
           listUnit: listUnit,
           listUsage: listUsage,
           buildMedicineData: joinedData,
+          // totalPrice: totalPrice,
         });
       }
       this.setState({
         appointmentDate: formattedDate,
         patientId: patientId,
         patientName: patientName,
+        unixDate: date,
       });
     }
   }
@@ -193,12 +236,24 @@ class ManageMedicalReport extends Component {
       let resMyMedicine = await getAllMedicinesOfPatientById(
         this.state.patientId
       );
-      console.log('resMyMedicineData >>> ', resMyMedicine);
       if (resMyMedicine && resMyMedicine.errCode === 0) {
         let joinedData = this.buildMyMedicineData(
           resMyMedicine.data,
           this.state.medicineData
         );
+        if (joinedData && joinedData.length > 0) {
+          let totalPrice = this.state.totalPrice;
+          for (let i = joinedData.length - 1; i < joinedData.length; i++) {
+            totalPrice =
+              totalPrice + joinedData[i].amount * joinedData[i].pricePerUnit;
+          }
+          let plusPrice = 0;
+          plusPrice = parseInt(this.state.doctorPrice) + parseInt(totalPrice);
+          this.setState({
+            totalPrice: totalPrice,
+            plusPrice: plusPrice,
+          });
+        }
         this.setState({
           buildMedicineData: joinedData,
         });
@@ -206,12 +261,73 @@ class ManageMedicalReport extends Component {
     } else {
       toast.error('Save medicine error!');
     }
-    console.log('check state: ', this.state);
   };
 
+  handleSendBill = async () => {
+    let res = await postBillService({
+      appointmentDate: this.state.appointmentDate,
+      patientName: this.state.patientName,
+      plusPrice: this.state.plusPrice,
+      totalPrice: this.state.totalPrice,
+      doctorPrice: this.state.doctorPrice,
+      receiverEmail: this.state.patientEmail,
+      doctorId: this.props.userInfo.id,
+      patientId: this.state.patientId,
+      unixDate: this.state.unixDate,
+    });
+    if (res && res.errCode === 0) {
+      toast.success('Send bill successfully');
+    } else {
+      toast.error('Send bill error!');
+    }
+  };
+
+  handleDeleteMedicine = async (item) => {
+    let res = await deleteMedicalReportByPatientId(
+      this.state.patientId,
+      item.medicineId
+    );
+    console.log(res);
+    if (res && res.errCode === 0) {
+      let resMyMedicine = await getAllMedicinesOfPatientById(
+        this.state.patientId
+      );
+      if (resMyMedicine && resMyMedicine.errCode === 0) {
+        let joinedData = this.buildMyMedicineData(
+          resMyMedicine.data,
+          this.state.medicineData
+        );
+        if (joinedData && joinedData.length > 0) {
+          let totalPrice = this.state.totalPrice;
+          for (let i = joinedData.length - 1; i < joinedData.length; i++) {
+            totalPrice =
+              totalPrice + joinedData[i].amount * joinedData[i].pricePerUnit;
+          }
+          let plusPrice = 0;
+          plusPrice = parseInt(this.state.doctorPrice) + parseInt(totalPrice);
+          this.setState({
+            totalPrice: totalPrice,
+            plusPrice: plusPrice,
+          });
+        }
+        if (joinedData.length == 0) {
+          let plusPrice = 0;
+          plusPrice = parseInt(this.state.doctorPrice);
+          this.setState({
+            totalPrice: 0,
+            plusPrice: plusPrice,
+          });
+        }
+        this.setState({
+          buildMedicineData: joinedData,
+        });
+      }
+    }
+  };
   render() {
     console.log('check state: ', this.state);
-    let { buildMedicineData } = this.state;
+    let { buildMedicineData, plusPrice } = this.state;
+
     return (
       <div className='manage-doctor-container'>
         <div className='manage-doctor-title'>
@@ -298,6 +414,42 @@ class ManageMedicalReport extends Component {
         >
           Lưu thông tin
         </button>
+        <div className='row'>
+          <div className='col-2 form-group'>
+            <label>Giá khám (VNĐ):</label>
+            <input
+              className='form-control'
+              disabled
+              value={this.state.doctorPrice}
+            />
+          </div>
+
+          <div className='col-2 form-group'>
+            <label>Giá thuốc (VNĐ):</label>
+            <input
+              className='form-control'
+              disabled
+              value={this.state.totalPrice}
+            />
+          </div>
+          <div className='col-2 form-group'>
+            <label>Tổng tiền (VNĐ):</label>
+            <input
+              className='form-control'
+              disabled
+              value={plusPrice}
+              type='number'
+            />
+          </div>
+          <button
+            className='form-group'
+            style={{ marginTop: '30px', background: 'orange' }}
+            onClick={() => this.handleSendBill()}
+          >
+            Gửi hóa đơn
+          </button>
+        </div>
+
         <div className='manage-patient-container'>
           <div className='manage-patient-body row'>
             <div className='col-12 table-manage-patient'>
@@ -322,7 +474,10 @@ class ManageMedicalReport extends Component {
                           <td>{item.amount}</td>
                           <td>{item.usage}</td>
                           <td className>
-                            <button className='mp-btn-cancel'>
+                            <button
+                              className='mp-btn-cancel'
+                              onClick={() => this.handleDeleteMedicine(item)}
+                            >
                               Hủy đơn thuốc
                             </button>
                           </td>
@@ -345,6 +500,7 @@ class ManageMedicalReport extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 

@@ -91,32 +91,37 @@ class ManagePatient extends Component {
 
                 {dataPatient && dataPatient.length > 0 ? (
                   dataPatient.map((item, index) => {
-                    let birthday = moment
-                      .unix(+item.patientData.birthday / 1000)
-                      .format('DD/MM/YYYY');
-                    return (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.timeTypeDataPatient.valueVi}</td>
-                        <td>{item.patientData.firstName}</td>
-                        <td>{item.patientData.genderData.valueVi}</td>
-                        <td>{birthday}</td>
-                        <td>{item.patientData.phoneNumber}</td>
-                        <td>{item.patientData.address}</td>
-                        <td className>
-                          <button
-                            className='mp-btn-confirm'
-                            onClick={() => this.handleMakeMedicalReport(item)}
-                          >
-                            Kê đơn thuốc
-                          </button>
-                          <button className='mp-btn-remedy'>Gửi hóa đơn</button>
-                          <button className='mp-btn-cancel'>
-                            Hủy lịch hẹn
-                          </button>
-                        </td>
-                      </tr>
-                    );
+                    if (item.patientData.birthday) {
+                      let birthday = moment
+                        .unix(+item.patientData.birthday / 1000)
+                        .format('DD/MM/YYYY');
+
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item.timeTypeDataPatient.valueVi}</td>
+                          <td>{item.patientData.firstName}</td>
+                          <td>{item.patientData.genderData.valueVi}</td>
+                          <td>{birthday}</td>
+                          <td>{item.patientData.phoneNumber}</td>
+                          <td>{item.patientData.address}</td>
+                          <td className>
+                            <button
+                              className='mp-btn-confirm'
+                              onClick={() => this.handleMakeMedicalReport(item)}
+                            >
+                              Kê đơn thuốc
+                            </button>
+                            <button className='mp-btn-remedy'>
+                              Gửi hóa đơn
+                            </button>
+                            <button className='mp-btn-cancel'>
+                              Hủy lịch hẹn
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    }
                   })
                 ) : (
                   <tr>No Data</tr>

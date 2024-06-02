@@ -99,6 +99,17 @@ const postSavePatientInfo = (data) => {
 const getPatientInfoByPId = (patientId) => {
   return axios.get(`/api/get-patient-info-by-pid?patientId=${patientId}`);
 };
+const postBillService = (data) => {
+  return axios.post('/api/post-bill', data);
+};
+const postVerifyBillService = (data) => {
+  return axios.post('/api/verify-bill', data);
+};
+const deleteMedicalReportByPatientId = (userId, medicineId) => {
+  return axios.delete(
+    `/api/delete-medical-report-by-patient-id?patientId=${userId}&medicineId=${medicineId}`
+  );
+};
 export {
   handleLoginApi,
   getAllUsers,
@@ -127,4 +138,7 @@ export {
   createNewMedicalReportService,
   postSavePatientInfo,
   getPatientInfoByPId,
+  postBillService,
+  postVerifyBillService,
+  deleteMedicalReportByPatientId,
 };
