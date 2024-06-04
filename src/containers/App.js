@@ -20,6 +20,7 @@ import Doctor from '../routes/Doctor';
 import VerifyEmail from './Patient/VerifyEmail';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import VerifyBill from './Patient/VerifyBill';
+import SignUp from './Auth/SignUp';
 
 class App extends Component {
   handlePersistorState = () => {
@@ -52,6 +53,10 @@ class App extends Component {
                   <Route
                     path={path.LOGIN}
                     component={userIsNotAuthenticated(Login)}
+                  />
+                  <Route
+                    path={path.SIGN_UP}
+                    component={SignUp}
                   />
                   <Route
                     path={path.SYSTEM}
